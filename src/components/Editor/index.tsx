@@ -1,9 +1,8 @@
-
 import { useEffect, useState } from 'react';
 import EditorToolbar from './EditorToolbar';
 import TextEditor from './TextEditor';
 import Pagination from './Pagination';
-import { toast } from '@/components/ui/sonner';
+import { toast } from 'sonner';
 import PageNavigation from './PageNavigation';
 import { cn } from '@/lib/utils';
 
@@ -19,7 +18,6 @@ const Editor = () => {
   const [documentTitle, setDocumentTitle] = useState('Document sans titre');
   const [isSaving, setIsSaving] = useState(false);
 
-  // Initialize with one empty page
   useEffect(() => {
     if (pages.length === 0) {
       setPages([
@@ -102,7 +100,6 @@ const Editor = () => {
   const saveCurrentPage = () => {
     setIsSaving(true);
     
-    // Simulate saving to a backend
     setTimeout(() => {
       setIsSaving(false);
       toast('Modifications enregistrées', {

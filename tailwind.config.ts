@@ -1,5 +1,5 @@
-
 import type { Config } from "tailwindcss";
+import typography from "@tailwindcss/typography";
 
 export default {
 	darkMode: ["class"],
@@ -101,8 +101,15 @@ export default {
 				'fade-in': 'fade-in 0.3s ease-out',
 				'fade-out': 'fade-out 0.3s ease-out',
 				'scale-in': 'scale-in 0.2s ease-out'
-			}
+			},
+			typography: {
+				DEFAULT: {
+					css: {
+						maxWidth: '100%',
+					},
+				},
+			},
 		}
 	},
-	plugins: [require("tailwindcss-animate")],
+	plugins: [require("tailwindcss-animate"), typography],
 } satisfies Config;
