@@ -36,13 +36,6 @@ const Editor = () => {
     return Math.random().toString(36).substring(2, 9);
   };
 
-  const handlePageChange = (index: number) => {
-    if (index >= 0 && index < pages.length) {
-      saveCurrentPage();
-      setCurrentPageIndex(index);
-    }
-  };
-
   const handleContentChange = (content: string) => {
     if (!currentPage) return;
     
@@ -59,8 +52,10 @@ const Editor = () => {
     if (currentPageIndex === pages.length - 1) {
       addNewPage();
     } else {
+      handlePageChange(currentPageIndex + 1);
+      
       toast('Limite de page atteinte', {
-        description: 'La taille maximale d\'une page a été atteinte.',
+        description: 'Passage automatique à la page suivante.',
         duration: 2000,
       });
     }
