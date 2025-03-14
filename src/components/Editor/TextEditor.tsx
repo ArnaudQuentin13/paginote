@@ -5,9 +5,13 @@ import { cn } from '@/lib/utils';
 interface TextEditorProps {
   content: string;
   onChange: (content: string) => void;
+  onContentOverflow?: () => void;
 }
 
-const TextEditor = ({ content, onChange }: TextEditorProps) => {
+// A4 height in pixels at 96 DPI
+const A4_HEIGHT_PX = 1123;
+
+const TextEditor = ({ content, onChange, onContentOverflow }: TextEditorProps) => {
   const editorRef = useRef<HTMLDivElement>(null);
   
   // Initialize editor with content
@@ -16,6 +20,30 @@ const TextEditor = ({ content, onChange }: TextEditorProps) => {
       editorRef.current.innerHTML = content;
     }
   }, [content]);
+
+  // Monitor content height and trigger overflow event
+  useEffect(() => {
+    const checkContentHeight = () => {
+      if (editorRef.current) {
+        const currentHeight = editorRef.current.scrollHeight;
+        if (currentHeight > A4_HEIGHT_PX && onContentOverflow) {
+          onContentOverflow();
+        }
+      }
+    };
+
+    // Create a MutationObserver to watch for content changes
+    if (editorRef.current && onContentOverflow) {
+      const observer = new MutationObserver(checkContentHeight);
+      observer.observe(editorRef.current, { 
+        childList: true, 
+        subtree: true, 
+        characterData: true 
+      });
+
+      return () => observer.disconnect();
+    }
+  }, [onContentOverflow]);
 
   // Handle input changes
   const handleInput = () => {
@@ -28,7 +56,7 @@ const TextEditor = ({ content, onChange }: TextEditorProps) => {
     <div 
       ref={editorRef}
       className={cn(
-        "editor-content outline-none min-h-[calc(29.7cm-4rem)]",
+        "editor-content outline-none min-h-[calc(1123px-4rem)] max-h-[1123px] overflow-y-auto",
         "focus:ring-0 focus:outline-none"
       )}
       contentEditable

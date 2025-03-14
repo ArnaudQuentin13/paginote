@@ -55,6 +55,17 @@ const Editor = () => {
     );
   };
 
+  const handleContentOverflow = () => {
+    if (currentPageIndex === pages.length - 1) {
+      addNewPage();
+    } else {
+      toast('Limite de page atteinte', {
+        description: 'La taille maximale d\'une page a été atteinte.',
+        duration: 2000,
+      });
+    }
+  };
+
   const addNewPage = () => {
     saveCurrentPage();
     
@@ -183,13 +194,14 @@ const Editor = () => {
       )}>
         <div className="container py-8 flex justify-center">
           <div className={cn(
-            "paper w-full max-w-4xl min-h-[29.7cm] p-8 transition-all duration-300",
+            "paper w-full max-w-4xl min-h-[29.7cm] h-[29.7cm] p-8 transition-all duration-300",
             "animate-scale-in"
           )}>
             {currentPage && (
               <TextEditor
                 content={currentPage.content}
                 onChange={handleContentChange}
+                onContentOverflow={handleContentOverflow}
               />
             )}
           </div>

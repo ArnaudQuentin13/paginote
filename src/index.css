@@ -66,9 +66,7 @@
     --input: 217.2 32.6% 17.5%;
     --ring: 224.3 76.3% 48%;
   }
-}
 
-@layer base {
   * {
     @apply border-border;
   }
@@ -79,6 +77,12 @@
   
   .editor-content {
     @apply max-w-none;
+  }
+  
+  /* Define A4 size in CSS */
+  :root {
+    --a4-width: 794px;   /* A4 width at 96 DPI (21cm) */
+    --a4-height: 1123px; /* A4 height at 96 DPI (29.7cm) */
   }
   
   .editor-content h1 {
@@ -141,6 +145,8 @@
   .paper {
     @apply bg-white shadow-md rounded-lg;
     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    width: var(--a4-width);
+    height: var(--a4-height);
   }
   
   /* Page transition effects */
