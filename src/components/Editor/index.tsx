@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from 'react';
 import EditorToolbar from './EditorToolbar';
 import TextEditor from './TextEditor';
@@ -34,6 +35,13 @@ const Editor = () => {
 
   const generateId = () => {
     return Math.random().toString(36).substring(2, 9);
+  };
+
+  const handlePageChange = (index: number) => {
+    if (index >= 0 && index < pages.length) {
+      saveCurrentPage();
+      setCurrentPageIndex(index);
+    }
   };
 
   const handleContentChange = (content: string) => {
