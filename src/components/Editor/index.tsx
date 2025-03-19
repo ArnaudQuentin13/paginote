@@ -6,6 +6,7 @@ import Pagination from './Pagination';
 import { toast } from 'sonner';
 import PageNavigation from './PageNavigation';
 import { cn } from '@/lib/utils';
+import HiddenTextEditor from './HiddenTextEditor';
 
 export type Page = {
   id: string;
@@ -18,13 +19,16 @@ const Editor = () => {
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
   const [documentTitle, setDocumentTitle] = useState('Document sans titre');
   const [isSaving, setIsSaving] = useState(false);
+  const [hiddenHeight, setHiddenHeight] = useState(0);
+  const [blockWriting, setBlockWriting] = useState(false);
+
 
   useEffect(() => {
     if (pages.length === 0) {
       setPages([
         {
           id: generateId(),
-          content: '',
+          content: ``,
           title: 'Page 1'
         }
       ]);
@@ -33,6 +37,7 @@ const Editor = () => {
 
   const currentPage = pages[currentPageIndex] || pages[0];
 
+  
   const generateId = () => {
     return Math.random().toString(36).substring(2, 9);
   };
@@ -57,6 +62,7 @@ const Editor = () => {
   };
 
   const handleContentOverflow = () => {
+    
     if (currentPageIndex === pages.length - 1) {
       addNewPage();
     } else {
@@ -78,8 +84,8 @@ const Editor = () => {
       title: `Page ${pages.length + 1}`
     };
     
-    setPages(prev => [...prev, newPage]);
-    setCurrentPageIndex(pages.length);
+    // setPages(prev => [...prev, newPage]);
+    // setCurrentPageIndex(pages.length);
     
     toast('Nouvelle page ajoutée', {
       description: `Page ${pages.length + 1} créée avec succès.`,
@@ -88,6 +94,9 @@ const Editor = () => {
   };
 
   const deletePage = (index: number) => {
+
+    
+    alert("delete")
     if (pages.length <= 1) {
       toast('Impossible de supprimer', {
         description: 'Un document doit contenir au moins une page.',
@@ -97,6 +106,7 @@ const Editor = () => {
     }
 
     const updatedPages = pages.filter((_, idx) => idx !== index);
+    
     setPages(updatedPages);
     
     if (currentPageIndex >= index && currentPageIndex > 0) {
@@ -152,6 +162,10 @@ const Editor = () => {
     setDocumentTitle(e.target.value);
   };
 
+  const getHiddenHeight = (height: number) => {
+    setHiddenHeight(height);
+  };
+
   return (
     <div className="flex flex-col h-screen animate-fade-in">
       <div className="border-b bg-white/80 backdrop-blur-sm z-10 sticky top-0">
@@ -197,15 +211,25 @@ const Editor = () => {
       )}>
         <div className="container py-8 flex justify-center">
           <div className={cn(
-            "paper w-full max-w-4xl min-h-[29.7cm] h-[29.7cm] p-8 transition-all duration-300",
+            "paper w-[794px] min-h-[29.7cm] h-[29.7cm] p-8 transition-all duration-300",
             "animate-scale-in"
           )}>
             {currentPage && (
+              <>
               <TextEditor
                 content={currentPage.content}
                 onChange={handleContentChange}
                 onContentOverflow={handleContentOverflow}
+                blockWriting={blockWriting}
               />
+              {/* <HiddenTextEditor
+                content={currentPage.content}
+                onChange={handleContentChange}
+                onContentOverflow={handleContentOverflow}
+                getHiddenHeight={getHiddenHeight}
+                setBlockWriting={setBlockWriting}
+              /> */}
+              </>
             )}
           </div>
         </div>

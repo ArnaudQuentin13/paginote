@@ -63,7 +63,7 @@ const Pagination = ({
                     className={cn(
                       "absolute -top-1 -right-1 w-4 h-4 rounded-full text-red-600 opacity-0 group-hover:opacity-100 hover:bg-white transition-opacity",
                       "group-hover:opacity-100",
-                      currentPageIndex === index ? "opacity-0" : "group-hover:opacity-100",
+                      currentPageIndex === index ? "opacity-100" : "group-hover:opacity-100",
                     )}
                     onClick={(e) => handleDeletePage(e, index)}
                     aria-label={`Supprimer la page ${index + 1}`}
