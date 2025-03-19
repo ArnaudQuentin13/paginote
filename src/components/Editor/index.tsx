@@ -62,17 +62,22 @@ const Editor = () => {
   };
 
   const handleContentOverflow = () => {
+
+    toast('Limite de page atteinte', {
+      description: 'Veuillez ajouter une nouvelle page.',
+      duration: 2000,
+    });
     
-    if (currentPageIndex === pages.length - 1) {
-      addNewPage();
-    } else {
-      handlePageChange(currentPageIndex + 1);
+    // if (currentPageIndex === pages.length - 1) {
+    //   addNewPage();
+    // } else {
+    //   handlePageChange(currentPageIndex + 1);
       
-      toast('Limite de page atteinte', {
-        description: 'Passage automatique à la page suivante.',
-        duration: 2000,
-      });
-    }
+    //   toast('Limite de page atteinte', {
+    //     description: 'Passage automatique à la page suivante.',
+    //     duration: 2000,
+    //   });
+    // }
   };
 
   const addNewPage = () => {
@@ -84,8 +89,8 @@ const Editor = () => {
       title: `Page ${pages.length + 1}`
     };
     
-    // setPages(prev => [...prev, newPage]);
-    // setCurrentPageIndex(pages.length);
+    setPages(prev => [...prev, newPage]);
+    setCurrentPageIndex(pages.length);
     
     toast('Nouvelle page ajoutée', {
       description: `Page ${pages.length + 1} créée avec succès.`,
